@@ -1,0 +1,14 @@
+.movie-tile{
+  max-width: 200px;
+  .title{
+    color: white;
+  }
+  .desc{
+    display: -webkit-box;
+    max-width: 100%;
+    -webkit-box-orient: vertical;
+    color: #CECECE;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+  }
+}

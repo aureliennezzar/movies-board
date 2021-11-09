@@ -1,0 +1,155 @@
+.hero {
+  height: 700px;
+  //overflow: hidden;
+  position: relative;
+  padding: 60px;
+  margin-bottom: 60px;
+  @media (max-width: 768px) {
+    padding: 60px 15px;
+
+  }
+
+  h1 {
+    color: white;
+    font-size: 70px;
+    @media (max-width: 991px) {
+      font-size: 30px;
+      text-align: center;
+    }
+  }
+
+  &-bg {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: absolute;
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+  }
+}
+
+.hero-body {
+  margin: 0 60px;
+  position: absolute;
+  bottom: 100px;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .search-form {
+    margin-bottom: 60px;
+    padding: 0 60px;
+    display: flex;
+    flex: 1 auto;
+
+    .home-input {
+      flex-basis: 33.333%;
+      height: 60px;
+      padding: 0 30px;
+      border: none;
+      border: 1px solid #C0C0C0;
+      &.home-select-input{
+        border-left: none;
+      }
+    }
+
+    .home-text-input {
+      border: 1px solid #C0C0C0;
+      border-bottom-left-radius: 7px;
+      border-top-left-radius: 7px;
+      border-right: none;
+    }
+
+    button {
+      position: relative;
+      background: none;
+      color: white;
+      border: 1px solid #C0C0C0;
+      border-left: none;
+      border-bottom-right-radius: 7px;
+      border-top-right-radius: 7px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 60px;
+
+      img {
+        width: 20px;
+        filter: invert(100%) sepia(0%) saturate(7482%) hue-rotate(107deg) brightness(103%) contrast(105%);
+      }
+    }
+
+    input, button {
+      box-sizing: border-box;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  .last-movie {
+    h2 {
+      color: white;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .event {
+      .body {
+        background: white;
+      }
+    }
+
+    @media (max-width: 768px) {
+      width: 100%;
+      padding: 0 15px;
+      .event {
+        width: 100%;
+      }
+    }
+  }
+
+  @media (max-width: 991px) {
+    flex-direction: column-reverse;
+    .search-form {
+      width: 100%;
+    }
+  }
+  @media (max-width: 768px) {
+    margin: 0;
+    .search-form {
+      padding: 0 15px;
+
+      input {
+        min-width: 240px;
+      }
+    }
+  }
+}
+
+.movies-list {
+  margin-top: 60px;
+
+  h1 {
+    text-align: center;
+  }
+
+  ul {
+    list-style: none;
+
+    li {
+      a {
+        text-decoration: none;
+        color: black;
+
+      }
+    }
+  }
+}

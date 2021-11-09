@@ -1,58 +1,76 @@
 //placeholders
 %center {
-	top: 50%;
-	left: 50%;
-	transform: translateX(-50%) translateY(-50%);
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
 }
+
 %centerFlex {
-	align-items: center;
-	justify-content: center;
+  align-items: center;
+  justify-content: center;
 }
+
 %flexCol {
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
+
 //vars
 :root {
-	//colors
-	--white-primary: #f1f1f1;
-	--black-primary: #101010;
-	--green-primary: #459779;
-	--silver-primary: #666666;
+  //colors
+  --white-primary: #f1f1f1;
+  --black-primary: #0C070F;
+  --green-primary: #459779;
+  --grey-primary: #343434;
+  --grey-light-primary:#343434;
+  --yellow-primary:#EAE151;
+  --silver-primary: #666666;
 }
 
 //Buttons
 .btn {
-	display: block;
-	border: none;
-	color: inherit;
-	font: inherit;
-	line-height: normal;
-	-webkit-font-smoothing: inherit;
-	-moz-osx-font-smoothing: inherit;
-	-webkit-appearance: none;
-	text-decoration: none;
-	user-select: none;
-	&::-moz-focus-inner {
-		border: 0;
-		padding: 0;
-	}
-	&:focus {
-		outline: none;
-	}
-	&:active {
-		padding: 0;
-	}
+  display: block;
+  border: none;
+  color: inherit;
+  font: inherit;
+  line-height: normal;
+  -webkit-font-smoothing: inherit;
+  -moz-osx-font-smoothing: inherit;
+  -webkit-appearance: none;
+  text-decoration: none;
+  user-select: none;
+
+  &::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:active {
+    padding: 0;
+  }
 }
 
 //Other
-html, body{
-	font-family: 'Rubik', sans-serif;
+html, body {
+  font-family: 'Rubik', sans-serif;
 }
 
-.link{
-	cursor: pointer;
-	font-size: 14px;
-	color: #657ED4;
-	text-decoration: underline;
+body {
+  margin-left: 100px;
+  background-color: #343434;
+}
+
+.page-title {
+  color: white;
+}
+
+.link {
+  cursor: pointer;
+  font-size: 14px;
+  color: #657ED4;
+  text-decoration: underline;
 }
