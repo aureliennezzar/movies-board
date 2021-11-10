@@ -1,6 +1,7 @@
 import {storageRef} from "./firebase";
+import axios from "axios";
 
-const uploadImage = (file, uid, setProgress) => {
+export const uploadImage = (file, uid, setProgress) => {
     return new Promise(resolve => {
         const task = storageRef.child(`${uid}/${file.name}`).put(file)
         if (file !== undefined && file.type.split('/')[0] === "image") {
@@ -23,4 +24,11 @@ const uploadImage = (file, uid, setProgress) => {
         }
     })
 }
-export default uploadImage;
+
+export const addMovie = (data)=>{
+    axios.post('http://localhost:3000/movies', data, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+}
