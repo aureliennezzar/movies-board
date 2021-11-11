@@ -14,3 +14,8 @@ export const formatDate = (date)=>{
     let day   = ('0' + time.getDay()).slice(-2);
     return `${day}.${month}.${year}`
 }
+export const dateToTimestamp = (date) =>{
+    let newDate = date.split("-");
+    newDate = new Date( newDate[2], newDate[1] - 1, newDate[0]);
+    return newDate.getTime()
+}
