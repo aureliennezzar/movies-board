@@ -1,14 +1,15 @@
 import './MovieAdd.scss'
 import React, {useEffect, useState} from 'react';
-import {uploadImage, addMovie} from "../../utils/crud";
+import {uploadImage, addMovie, getCategories} from "../../utils/crud";
 import ActorTile from "./ActorTile";
 import SimMovieTile from "./SimMovieTile";
 import {Autocomplete, TextField} from "@mui/material";
 import CategorieInput from "../../components/CategorieInput/CategorieInput";
+
 const backdropPlaceholder = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.10wallpaper.com%2Ffr%2Flist%2FBeautiful_Nature_Scenery_4K_HD_Photo.html&psig=AOvVaw3TszFs97KeGsudUQMZk23b&ust=1636675673321000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCJD51ZKCj_QCFQAAAAAdAAAAABAD"
 const posterPlaceholder = "https://firebasestorage.googleapis.com/v0/b/my-movies-list-23f59.appspot.com/o/images%2Fdefault-placeholder.png?alt=media&token=c6082f11-8efe-42cc-b43d-c7b23b75f9b0"
 const avatarPlaceholder = "https://firebasestorage.googleapis.com/v0/b/my-movies-list-23f59.appspot.com/o/images%2Fsbcf-default-avatar.png?alt=media&token=d9863a53-4983-47d4-9ce7-434a9b5c9268"
-const MoviesAdd = () => {
+const MovieAdd = () => {
     const defaultActorData = {
         name: "",
         photo: "",
@@ -19,7 +20,7 @@ const MoviesAdd = () => {
         title: "",
         poster: "",
         posterName: "",
-        release_date:""
+        release_date: ""
     }
     const [inputs, setInputs] = useState({
         title: "",
@@ -42,13 +43,15 @@ const MoviesAdd = () => {
     const [backdropProgress, setBackdropProgress] = useState(100);
 
     const [actorsList, setActorsList] = useState([])
-
     const [moviesList, setMoviesList] = useState([])
 
     const [categoriesList, setCategoriesList] = useState([])
+    const [allCategories, setAllCategories] = useState([])
 
 
-    useEffect(()=>{})
+    useEffect(() => {
+        getCategories(setAllCategories);
+    }, [])
     // HANDLE ADD MOVIE SUBMIT
     const handleSubmit = (e) => {
         const data = inputs
@@ -71,9 +74,8 @@ const MoviesAdd = () => {
         data.categories = categoriesList
         console.log({...data})
         addMovie({...data})
-        // console.log({...data})
-        // alert('Le film à bien été ajouté !')
-        // window.location.href = "/"
+        alert('Le film à bien été ajouté !')
+        window.location.href = "/"
     }
 
 // HANDLE ACTOR FORM
@@ -185,9 +187,8 @@ const MoviesAdd = () => {
     }
 
     return (
-        <section className="movie-add">
-            <h1 className="page-title">Ajouter un film à ma liste</h1>
-
+        <section className="movie-actions">
+            <h1 className="page-title">Editer un film de ma liste</h1>
             {/*ADD MOVIE FORM*/}
             <form className="add-form" onSubmit={handleSubmit}>
                 {/*TITLE + CATEGORIE INPUT GROUP*/}
@@ -215,7 +216,7 @@ const MoviesAdd = () => {
                     <div className="categorie-wrapper">
 
                     </div>
-                    <CategorieInput categoriesList={["Horreur", "Comedie", "Fantaisie"]}
+                    <CategorieInput categoriesList={allCategories}
                                     setCategories={setCategoriesList}/>
                 </div>
 
@@ -432,4 +433,4 @@ const MoviesAdd = () => {
         </section>
     )
 }
-export default MoviesAdd;
+export default MovieAdd;

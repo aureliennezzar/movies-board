@@ -4,14 +4,16 @@ import searchImg from "../../assets/img/loupe.svg"
 import bgImg from "../../assets/img/mandalorian.jpg"
 import "./Home.scss"
 import MovieTile from "../../components/MovieTile/MovieTile";
-import {getAllMovies} from "../../utils/crud";
+import {getAllMovies, getCategories} from "../../utils/crud";
 
 const Home = () => {
     const [input, setInput] = useState("")
     const [movies, setMovies] = useState([]);
+    const [allCategories, setAllCategories] = useState([]);
     useEffect(() => {
         // GET ALL MOVIES IN THE LIBRARY
         getAllMovies(setMovies);
+        getCategories(setAllCategories)
     }, [])
     return (
         <section className="homepage">
@@ -24,9 +26,9 @@ const Home = () => {
                                onInput={(e) => setInput(e.target.value)} value={input}/>
                         <input className="home-input" type="date"/>
                         <select className="home-input home-select-input" name="" id="">
-                            <option>Catégorie</option>
-                            <option>Action</option>
-                            <option>Action</option>
+                            {allCategories.map((categorie,i)=>(
+                                <option key={i}>{categorie}</option>
+                            ))}
                         </select>
                         <button type="submit"><img src={searchImg}/></button>
                     </form>
@@ -37,8 +39,8 @@ const Home = () => {
                 <h1 className="page-title">Mes films</h1>
 
                 <ul>
-                    {movies && movies.map((movie) => (
-                        <MovieTile title={movie.title} desc={movie.description} imgSrc={movie.poster}
+                    {movies && movies.map((movie,i) => (
+                        <MovieTile key={i} title={movie.title} desc={movie.description} imgSrc={movie.poster}
                                    movieId={movie.id}/>
                     ))}
                 </ul>

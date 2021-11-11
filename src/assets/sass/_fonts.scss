@@ -4,6 +4,8 @@ $icomoon-font-path: "icon" !default;
 
 $icon-loupe: "\e900";
 $icon-addfile: "\e901";
+$icon-edit: "\e902";
+$icon-delete: "\e903";
 
 @font-face {
   font-family: '#{$icomoon-font-family}';
@@ -32,6 +34,16 @@ $icon-addfile: "\e901";
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-edit {
+  &:before {
+    content: "\e902";
+  }
+}
+.icon-delete {
+  &:before {
+    content: "\e903";
+  }
+}
 .icon-loupe {
   &:before {
     content: $icon-loupe;

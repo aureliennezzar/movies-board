@@ -34,6 +34,13 @@ export const addMovie = (data) => {
         }
     });
 }
+export const editMovie = (movieId, data) => {
+    axios.put(API + '/movies/' + movieId, data, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+}
 
 export const getAllMovies = (setMovies) => {
     axios.get(API + '/movies')
@@ -42,11 +49,28 @@ export const getAllMovies = (setMovies) => {
         })
 }
 
-export const getCategories = ()=>{
+export const getCategories = (setCategories) => {
 
     axios.get(API + '/movies')
         .then(res => {
             const movies = res.data;
-            console.log(movies)
+            const moviesCategories = movies.map(movie => movie.categories);
+            let allCategories = []
+            moviesCategories.forEach(movieCategorie => {
+                movieCategorie.forEach(categorie => {
+                    if (allCategories.indexOf(categorie) < 0) {
+                        allCategories.push(categorie)
+                    }
+                })
+            })
+            setCategories(allCategories)
         })
+}
+
+export const getMovieData = (movieId, setData, edit = false) => {
+    axios.get(API + '/movies/' + movieId)
+        .then(res => {
+            setData(res.data)
+        })
+
 }
