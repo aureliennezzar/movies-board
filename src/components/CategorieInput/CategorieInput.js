@@ -47,7 +47,7 @@ export default function CheckboxesTags({categoriesList, setCategories}) {
             renderInput={(params) => (
                 <CustomField
                     {...params}
-                    label="Catégories"
+                    label="Catégories*"
                     placeholder="Ecrire une catégorie..."
                 />
             )}

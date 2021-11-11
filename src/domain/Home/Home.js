@@ -4,18 +4,14 @@ import searchImg from "../../assets/img/loupe.svg"
 import bgImg from "../../assets/img/mandalorian.jpg"
 import "./Home.scss"
 import MovieTile from "../../components/MovieTile/MovieTile";
+import {getAllMovies} from "../../utils/crud";
 
 const Home = () => {
     const [input, setInput] = useState("")
     const [movies, setMovies] = useState([]);
     useEffect(() => {
         // GET ALL MOVIES IN THE LIBRARY
-        axios.get(`http://localhost:3000/movies`)
-            .then(res => {
-
-                setMovies(res.data)
-                console.log(res.data)
-            })
+        getAllMovies(setMovies);
     }, [])
     return (
         <section className="homepage">
@@ -24,8 +20,9 @@ const Home = () => {
                 <img className="hero-bg" src={bgImg}/>
                 <div className="hero-body">
                     <form onSubmit={() => console.log('submit')} className="search-form">
-                        <input className="home-input home-text-input" type="text" placeholder="Titre..." onInput={(e) => setInput(e.target.value)} value={input}/>
-                        <input className="home-input"  type="date"/>
+                        <input className="home-input home-text-input" type="text" placeholder="Titre..."
+                               onInput={(e) => setInput(e.target.value)} value={input}/>
+                        <input className="home-input" type="date"/>
                         <select className="home-input home-select-input" name="" id="">
                             <option>Catégorie</option>
                             <option>Action</option>
@@ -41,7 +38,8 @@ const Home = () => {
 
                 <ul>
                     {movies && movies.map((movie) => (
-                        <MovieTile title={movie.title} desc={movie.description} imgSrc={movie.poster} movieId={movie.id}/>
+                        <MovieTile title={movie.title} desc={movie.description} imgSrc={movie.poster}
+                                   movieId={movie.id}/>
                     ))}
                 </ul>
             </div>
