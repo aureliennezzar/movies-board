@@ -31,6 +31,7 @@ export default function CheckboxesTags({categoriesList, setCategories, actualCat
             },
         },
     });
+    useEffect(()=>{},[actualCategories])
     return (
         <Autocomplete
             onChange={(e, getTagProps) => {

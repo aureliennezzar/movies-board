@@ -1,6 +1,6 @@
 import './MovieAdd.scss'
 import React, {useEffect, useState} from 'react';
-import {uploadImage, addMovie, getCategories} from "../../utils/crud";
+import {uploadImage, addMovie, getCategories, getTmdbMovie, convertMovie} from "../../utils/crud";
 import ActorTile from "./ActorTile";
 import SimMovieTile from "./SimMovieTile";
 import {Autocomplete, TextField} from "@mui/material";
@@ -10,6 +10,11 @@ const backdropPlaceholder = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fw
 const posterPlaceholder = "https://firebasestorage.googleapis.com/v0/b/my-movies-list-23f59.appspot.com/o/images%2Fdefault-placeholder.png?alt=media&token=c6082f11-8efe-42cc-b43d-c7b23b75f9b0"
 const avatarPlaceholder = "https://firebasestorage.googleapis.com/v0/b/my-movies-list-23f59.appspot.com/o/images%2Fsbcf-default-avatar.png?alt=media&token=d9863a53-4983-47d4-9ce7-434a9b5c9268"
 const MovieAdd = () => {
+    const [titleInfos, setTitleInfos] = useState({
+        typing: false,
+        typingTimeout: 0
+    })
+
     const defaultActorData = {
         name: "",
         photo: "",
@@ -48,13 +53,21 @@ const MovieAdd = () => {
     const [categoriesList, setCategoriesList] = useState([])
     const [allCategories, setAllCategories] = useState([])
 
+    const [tmdbMovies, setTmdbMovies] = useState([])
+    const [tmdbMoviesTitles, setTmdbMoviesTitles] = useState([])
+    const [selectedTitle, setSelectedTitle] = useState("")
 
     useEffect(() => {
         getCategories(setAllCategories);
     }, [])
+
+    useEffect(() => {
+        setTmdbMoviesTitles(tmdbMovies.map(movie => movie.title))
+    }, [tmdbMovies])
+
     // HANDLE ADD MOVIE SUBMIT
     const handleSubmit = (e) => {
-        const data = inputs
+        const data = inputs;
         e.preventDefault()
         if (
             !actorsList.length ||
@@ -194,13 +207,45 @@ const MovieAdd = () => {
                 {/*TITLE + CATEGORIE INPUT GROUP*/}
                 <div className="input-group">
                     <div className="input-wrapper">
-                        <label>Titre*</label>
-                        <input type="text"
-                               className="form-input"
-                               name="title"
-                               onChange={handleInputsChange}
-                               required={true}
-                               value={inputs.title}/>
+                        {/*<label>Titre*</label>*/}
+                        {/*<input type="text"*/}
+                        {/*       className="form-input"*/}
+                        {/*       name="title"*/}
+                        {/*       onChange={handleInputsChange}*/}
+                        {/*       required={true}*/}
+                        {/*       value={inputs.title}/>*/}
+                        <Autocomplete
+                            disablePortal
+                            freeSolo
+                            options={tmdbMoviesTitles}
+                            sx={{width: 300}}
+                            onInputChange={(event, newInputValue) => {
+                                setInputs({
+                                    ...inputs,
+                                    title: newInputValue
+                                })
+                                if (titleInfos.typingTimeout) clearTimeout(titleInfos.typingTimeout)
+                                if (newInputValue.length) {
+                                    setTitleInfos({
+                                        typing: false,
+                                        typingTimeout: setTimeout(() => {
+                                            getTmdbMovie(setTmdbMovies, "&query=" + newInputValue)
+                                        }, 500)
+                                    })
+                                } else {
+                                    setTmdbMoviesTitles([])
+                                }
+                            }}
+                            inputValue={inputs.title}
+                            onChange={(event, newValue) => {
+                                let movieToFill = tmdbMovies[tmdbMoviesTitles.indexOf(newValue)]
+                                if(movieToFill) convertMovie(movieToFill, setInputs, setActorsList, setCategoriesList, setMoviesList)
+
+                                setSelectedTitle(newValue);
+                            }}
+                            value={selectedTitle}
+                            renderInput={(params) => <TextField name="title" {...params} label="Titre*"/>}
+                        />
                     </div>
                     <div className="input-wrapper">
                         <label>Date de sortie</label>
@@ -217,6 +262,7 @@ const MovieAdd = () => {
 
                     </div>
                     <CategorieInput categoriesList={allCategories}
+                                    actualCategories={categoriesList}
                                     setCategories={setCategoriesList}/>
                 </div>
 
