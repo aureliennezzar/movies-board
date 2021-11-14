@@ -1,7 +1,7 @@
 import {storageRef} from "./firebase";
 import axios from "axios";
 
-const API = "http://localhost:3001"
+const API = "http://localhost:3000"
 const TMDB_KEY = "?api_key=" + process.env.REACT_APP_TMD_API_KEY
 const tmdbAPI = "https://api.themoviedb.org/3"
 const imgpath = "https://image.tmdb.org/t/p/original/"
