@@ -21,7 +21,7 @@ Pour installer le projet il suffit de taper ces commandes :
 
 ## Setup API TMDB
 
-Il faut créer un fichier `.env` à la racine du fichier.
+Il faut créer un fichier `.env` à la racine du projet.
 
 Y créer une variable `REACT_APP_TMD_API_KEY` et lui assigner la clé de l'API TMDB
 
