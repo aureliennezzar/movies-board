@@ -12,26 +12,10 @@ const icon = <CheckBoxOutlineBlankIcon fontSize="small"/>;
 const checkedIcon = <CheckBoxIcon fontSize="small"/>;
 
 export default function CheckboxesTags({categoriesList, setCategories, actualCategories}) {
-    const CustomField = styled(TextField)({
-        '& label.Mui-focused': {
-            color: 'green',
-        },
-        '& .MuiInput-underline:after': {
-            borderBottomColor: 'green',
-        },
-        '& .MuiOutlinedInput-root': {
-            '& fieldset': {
-                borderColor: 'red',
-            },
-            '&:hover fieldset': {
-                borderColor: 'yellow',
-            },
-            '&.Mui-focused fieldset': {
-                borderColor: 'green',
-            },
-        },
-    });
-    useEffect(()=>{},[actualCategories])
+
+    useEffect(()=>{
+
+    },[actualCategories])
     return (
         <Autocomplete
             onChange={(e, getTagProps) => {
@@ -41,6 +25,7 @@ export default function CheckboxesTags({categoriesList, setCategories, actualCat
             id="tags-filled"
             options={categoriesList}
             defaultValue={actualCategories}
+            value={actualCategories}
             freeSolo
             renderTags={(value, getTagProps) =>
                 value.map((option, index) => (
@@ -49,7 +34,7 @@ export default function CheckboxesTags({categoriesList, setCategories, actualCat
 
             }
             renderInput={(params) => (
-                <CustomField
+                <TextField
                     {...params}
                     label="Catégories*"
                     placeholder="Ecrire une catégorie..."

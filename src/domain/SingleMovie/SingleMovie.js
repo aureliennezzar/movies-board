@@ -6,6 +6,7 @@ import {getMovieData} from "../../utils/crud";
 const SingleMovie = () => {
     const {id} = useParams();
     const [movieData, setMovieData] = useState(null);
+    const [simMov, setSimMov] = useState(false)
     useEffect(() => {
         getMovieData(id, setMovieData);
     }, [])
@@ -14,8 +15,9 @@ const SingleMovie = () => {
     }, [movieData])
 
     return (
-        <section className="single-movie">
+        <section className={`single-movie ${simMov ? "sim-open" : ""}`}>
             {movieData && <>
+                <div className="icon-list" onClick={() => setSimMov(!simMov)}></div>
 
                 <div className="bg">
                     <img src={movieData.backdrop} alt=""/>
@@ -51,34 +53,37 @@ const SingleMovie = () => {
                             <ul className="actors">
                                 {movieData.actors.map((actor, i) => (
                                     <li className="actor-tile" key={i}>
-                                        <div className="bg-img">
-                                            <img src={actor.photo}/>
-                                        </div>
-                                        <div className="actor-tile-body">
-                                            <h3 className="title">{actor.name}</h3>
-                                            <p className="role">{actor.character}</p>
-                                        </div>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                        <div className="bloc-info">
-                            <h3 className="bloc-title">Film(s) similaire(s)</h3>
-                            <ul className="similar-movies">
-                                {movieData.similar_movies.map((movie, i) => (
-                                    <li className="actor-tile" key={i}>
-                                        <div className="bg-img">
-                                            <img src={movie.poster}/>
-                                        </div>
-                                        <div className="actor-tile-body">
-                                            <h3 className="title">{movie.title}</h3>
-                                            <p className="role">{movie.release_date}</p>
+                                        <div className="actor-tile-content">
+                                            <div className="bg-img">
+                                                <img src={actor.photo}/>
+                                            </div>
+                                            <div className="actor-tile-body">
+                                                <h3 className="title">{actor.name}</h3>
+                                                <p className="role">{actor.character}</p>
+                                            </div>
                                         </div>
                                     </li>
                                 ))}
                             </ul>
                         </div>
                     </div>
+                </div>
+
+                <div className="similar-movies">
+                    <div className="bloc-title">
+                        <h3>Films Similaires</h3>
+                    </div>
+                    <ul className="similar-movies-list">
+                        {movieData.similar_movies.map((movie, i) => (
+                            <li className="simmovie-tile" key={i}>
+                                <div className="left">
+                                    <img src={movie.poster}/></div>
+                                <div className="right">
+                                    <h4 className="title">{movie.title}</h4>
+                                    <p className="role">{movie.release_date}</p></div>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
             </>}
         </section>

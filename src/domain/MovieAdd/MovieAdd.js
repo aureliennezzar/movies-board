@@ -5,11 +5,19 @@ import ActorTile from "./ActorTile";
 import SimMovieTile from "./SimMovieTile";
 import {Autocomplete, TextField} from "@mui/material";
 import CategorieInput from "../../components/CategorieInput/CategorieInput";
+import Confirm from "../../components/Confirm/Confirm";
 
 const backdropPlaceholder = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.10wallpaper.com%2Ffr%2Flist%2FBeautiful_Nature_Scenery_4K_HD_Photo.html&psig=AOvVaw3TszFs97KeGsudUQMZk23b&ust=1636675673321000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCJD51ZKCj_QCFQAAAAAdAAAAABAD"
 const posterPlaceholder = "https://firebasestorage.googleapis.com/v0/b/my-movies-list-23f59.appspot.com/o/images%2Fdefault-placeholder.png?alt=media&token=c6082f11-8efe-42cc-b43d-c7b23b75f9b0"
 const avatarPlaceholder = "https://firebasestorage.googleapis.com/v0/b/my-movies-list-23f59.appspot.com/o/images%2Fsbcf-default-avatar.png?alt=media&token=d9863a53-4983-47d4-9ce7-434a9b5c9268"
 const MovieAdd = () => {
+    const [confirmData, setConfirmData] = useState({
+        abortMesasge: null,
+        onConfirm: () => {
+        },
+        message: ""
+    })
+    const [confirm, setConfirm] = useState(false)
     const [titleInfos, setTitleInfos] = useState({
         typing: false,
         typingTimeout: 0
@@ -27,6 +35,7 @@ const MovieAdd = () => {
         posterName: "",
         release_date: ""
     }
+
     const [inputs, setInputs] = useState({
         title: "",
         description: "",
@@ -36,6 +45,7 @@ const MovieAdd = () => {
         posterName: "",
         backdropName: ""
     });
+
     const [actorForm, setActorForm] = useState(false);
     const [actorData, setActorData] = useState(defaultActorData);
 
@@ -77,7 +87,13 @@ const MovieAdd = () => {
             !data.release_date.length ||
             !moviesList.length
         ) {
-            alert("Veuillez remplir tout les champs");
+            setConfirmData({
+                abortMesasge: null,
+                onConfirm: () => {
+                },
+                message: "Veuillez remplir tout les champs"
+            })
+            setConfirm(true)
             return
         }
         delete data.posterName
@@ -85,17 +101,29 @@ const MovieAdd = () => {
         data.actors = actorsList
         data.similar_movies = moviesList
         data.categories = categoriesList
-        console.log({...data})
         addMovie({...data})
-        alert('Le film à bien été ajouté !')
-        window.location.href = "/"
+
+
+        setConfirmData({
+            abortMesasge: null,
+            message: "Le film à bien été ajouté !",
+            onConfirm: () => window.location.href = "/"
+        })
+        setConfirm(true)
     }
 
 // HANDLE ACTOR FORM
     const handleActorSubmit = (e) => {
         const actorsValid = actorsList.filter(item => item.name === actorData.name)
         if (actorsValid.length) {
-            alert('Cette acteur existe déjà!')
+
+            setConfirmData({
+                abortMesasge: null,
+                onConfirm: () => {
+                },
+                message: "Cette acteur existe déja"
+            })
+            setConfirm(true)
             return
         }
 
@@ -108,14 +136,28 @@ const MovieAdd = () => {
             setActorsList((oldArray) => [...oldArray, actorDataCopy])
             resetActorForm()
         } else {
-            alert("Veuillez remplir tout les champs")
+
+            setConfirmData({
+                abortMesasge: null,
+                onConfirm: () => {
+                },
+                message: "Veuillez remplir tout les champs"
+            })
+            setConfirm(true)
         }
     }
 // HANDLE SIMILAR MOVIES FORM
     const handleMovieSubmit = (e) => {
         const moviesValid = moviesList.filter(item => item.name === movieData.name)
         if (moviesValid.length) {
-            alert('Cette acteur existe déjà!')
+
+            setConfirmData({
+                abortMesasge: null,
+                onConfirm: () => {
+                },
+                message: "Ce film existe déja"
+            })
+            setConfirm(true)
             return
         }
         if (!movieData.posterName.length) {
@@ -127,7 +169,14 @@ const MovieAdd = () => {
             setMoviesList((oldArray) => [...oldArray, movieDataCopy])
             resetMovieForm()
         } else {
-            alert("Veuillez remplir tout les champs")
+
+            setConfirmData({
+                abortMesasge: null,
+                onConfirm: () => {
+                },
+                message: "Veuillez remplir tout les champs"
+            })
+            setConfirm(true)
         }
     }
     const handleUpload = (e, setProgress, type) => {
@@ -198,22 +247,17 @@ const MovieAdd = () => {
         setMovieForm(false);
         setMovieData(defaultMovieData);
     }
-
     return (
         <section className="movie-actions">
-            <h1 className="page-title">Editer un film de ma liste</h1>
+            {confirm &&
+            <Confirm message={confirmData.message} setConfirm={setConfirm} abortMessage={confirmData.abortMesasge}
+                     onConfirm={confirmData.onConfirm}/>}
+            <h1 className="page-title">Ajouter un film</h1>
             {/*ADD MOVIE FORM*/}
             <form className="add-form" onSubmit={handleSubmit}>
                 {/*TITLE + CATEGORIE INPUT GROUP*/}
                 <div className="input-group">
                     <div className="input-wrapper">
-                        {/*<label>Titre*</label>*/}
-                        {/*<input type="text"*/}
-                        {/*       className="form-input"*/}
-                        {/*       name="title"*/}
-                        {/*       onChange={handleInputsChange}*/}
-                        {/*       required={true}*/}
-                        {/*       value={inputs.title}/>*/}
                         <Autocomplete
                             disablePortal
                             freeSolo
@@ -239,7 +283,7 @@ const MovieAdd = () => {
                             inputValue={inputs.title}
                             onChange={(event, newValue) => {
                                 let movieToFill = tmdbMovies[tmdbMoviesTitles.indexOf(newValue)]
-                                if(movieToFill) convertMovie(movieToFill, setInputs, setActorsList, setCategoriesList, setMoviesList)
+                                if (movieToFill) convertMovie(movieToFill, setInputs, setActorsList, setCategoriesList, setMoviesList)
 
                                 setSelectedTitle(newValue);
                             }}
@@ -248,28 +292,18 @@ const MovieAdd = () => {
                         />
                     </div>
                     <div className="input-wrapper">
-                        <label>Date de sortie</label>
-                        <input type="date"
-                               required={true}
-                               name="release_date"
-                               onChange={handleInputsChange}
-                               value={inputs.release_date}/>
+
+                        <CategorieInput categoriesList={allCategories}
+                                        actualCategories={categoriesList}
+                                        setCategories={setCategoriesList}/>
                     </div>
                 </div>
 
-                <div className="input-wrapper">
-                    <div className="categorie-wrapper">
-
-                    </div>
-                    <CategorieInput categoriesList={allCategories}
-                                    actualCategories={categoriesList}
-                                    setCategories={setCategoriesList}/>
-                </div>
 
                 {/*DESCRIPTION INPUT*/}
                 <div className="input-wrapper">
                     <label>Description*</label>
-                    <textarea className="home-textarea" name="description" id="" cols="30" rows="10"
+                    <textarea className="home-textarea input-custom" name="description" id="" cols="30" rows="10"
                               required={true}
                               onChange={handleInputsChange}
                               value={inputs.description}></textarea>
@@ -282,12 +316,16 @@ const MovieAdd = () => {
                         <div className="upload-wrapper">
                             {posterProgress === 100
                                 ? <>
-                                    <p className="image-name">{inputs.posterName.length
-                                        ? inputs.posterName
-                                        : "Aucune image"
-                                    }</p>
+                                    {inputs.posterName
+                                        ? <p className="image-name">{inputs.posterName.length
+                                            ? inputs.posterName
+                                            : "Aucune image"
+                                        }</p>
+                                        : <p className="image-name">Importer une image</p>
+                                    }
                                     <label htmlFor="fileinput-poster" className="icon-addfile"></label>
                                     <input
+                                        className="input-custom"
                                         onChange={(e) => handleUpload(e, setPosterProgress, "poster")}
                                         className="fileinput"
                                         type="file"
@@ -304,10 +342,11 @@ const MovieAdd = () => {
                         <div className="upload-wrapper">
                             {backdropProgress === 100
                                 ? <>
-                                    <p className="image-name">{inputs.backdropName.length
-                                        ? inputs.backdropName
-                                        : "Aucune image"
-                                    }</p>
+                                    {inputs.backdropName ? <p className="image-name">{inputs.backdropName.length
+                                            ? inputs.backdropName
+                                            : "Aucune image"
+                                        }</p>
+                                        : <p className="image-name">Importer une image</p>}
                                     <label htmlFor="fileinput-backdrop" className="icon-addfile"></label>
                                     <input
                                         onChange={(e) => handleUpload(e, setBackdropProgress, "backdrop")}
@@ -321,6 +360,16 @@ const MovieAdd = () => {
                                 : "Chargement..."}
                         </div>
                     </div>
+                    <div className="input-wrapper">
+                        <label>Date de sortie</label>
+                        <input
+                            className="input-custom"
+                            type="date"
+                            required={true}
+                            name="release_date"
+                            onChange={handleInputsChange}
+                            value={inputs.release_date}/>
+                    </div>
                 </div>
 
                 <div className="input-wrapper ">
@@ -331,13 +380,14 @@ const MovieAdd = () => {
                             <div className="add-tile-link"
                                  onClick={() => setActorForm(true)}>
                                 <div className="add-tile-body">
-                                    <p>+</p>
+                                    <div className="icon-plus"></div>
                                 </div>
                             </div>
                             <div className={`add-tile-form ${actorForm ? "" : "disabled"}`}>
                                 <div
                                     className={`close ${actorProgress != 100 ? "disabled" : ""}`}
-                                    onClick={resetActorForm}>X
+                                    onClick={resetActorForm}>
+                                    <div className="icon-cross"></div>
                                 </div>
                                 <div className="input-wrapper">
                                     <label>Nom</label>
@@ -386,7 +436,7 @@ const MovieAdd = () => {
                                     </div>
 
                                 </div>
-                                <input type="button" disabled={actorProgress == 100 ? false : true} value="valider"
+                                <input type="button" className="btn small" disabled={actorProgress == 100 ? false : true} value="valider"
                                        onClick={handleActorSubmit}/>
                             </div>
                         </div>
@@ -407,13 +457,14 @@ const MovieAdd = () => {
                             <div className="add-tile-link"
                                  onClick={() => setMovieForm(true)}>
                                 <div className="add-tile-body">
-                                    <p>+</p>
+                                    <div className="icon-plus"></div>
                                 </div>
                             </div>
                             <div className={`add-tile-form ${movieForm ? "" : "disabled"}`}>
                                 <div
                                     className={`close ${movieProgress != 100 ? "disabled" : ""}`}
-                                    onClick={resetMovieForm}>X
+                                    onClick={resetMovieForm}>
+                                    <div className="icon-cross"></div>
                                 </div>
                                 <div className="input-wrapper">
                                     <label>Titre</label>
@@ -474,7 +525,7 @@ const MovieAdd = () => {
                         </ul>
                     </div>
                 </div>
-                <button type="submit">Ajouter</button>
+                <button className="btn" type="submit">Ajouter</button>
             </form>
         </section>
     )

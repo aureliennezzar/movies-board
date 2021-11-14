@@ -9,7 +9,7 @@ const SimMovieTile = ({title,poster,date, setMovies, movies}) => {
     }
     return (
         <li className="sim-movie-tile">
-            <div className="delete-btn" onClick={handleRemove}>x</div>
+            <div className="delete-btn" onClick={handleRemove}><div className="icon-cross"></div></div>
             <div className="bg-img">
                 {poster && <img src={poster}/>}
             </div>

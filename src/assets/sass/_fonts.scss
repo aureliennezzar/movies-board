@@ -1,7 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap');
 $icomoon-font-family: "icomoon" !default;
 $icomoon-font-path: "icon" !default;
 
+$icon-list: "\e90b";
+$icon-cross: "\e90a";
+$icon-plus: "\e909";
+$icon-network: "\e907";
+$icon-user: "\e908";
+$icon-filter: "\e906";
+$icon-add_movie: "\e904";
+$icon-movie: "\e905";
 $icon-loupe: "\e900";
 $icon-addfile: "\e901";
 $icon-edit: "\e902";
@@ -34,6 +42,46 @@ $icon-delete: "\e903";
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-list {
+  &:before {
+    content: $icon-list;
+  }
+}
+.icon-cross {
+  &:before {
+    content: $icon-cross;
+  }
+}
+.icon-plus {
+  &:before {
+    content: $icon-plus;
+  }
+}
+.icon-network {
+  &:before {
+    content: $icon-network;
+  }
+}
+.icon-user {
+  &:before {
+    content: $icon-user;
+  }
+}
+.icon-filter {
+  &:before {
+    content: $icon-filter;
+  }
+}
+.icon-add_movie {
+  &:before {
+    content: $icon-add_movie;
+  }
+}
+.icon-movie {
+  &:before {
+    content: $icon-movie;
+  }
+}
 .icon-edit {
   &:before {
     content: "\e902";

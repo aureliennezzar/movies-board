@@ -22,10 +22,10 @@ const Home = () => {
         e.preventDefault()
         let filteredMovies = movies;
         if (inputs.title.length) {
-            filteredMovies = movies.filter((movie) => movie.title.toLowerCase().indexOf(inputs.title.toLowerCase()) >= 0)
+            filteredMovies = movies.filter((movie) => movie.title.toLowerCase().includes(inputs.title.toLowerCase()))
         }
         if (inputs.date.length) {
-            filteredMovies = movies.filter((movie) => dateToTimestamp(movie.release_date) < dateToTimestamp(inputs.date))
+            filteredMovies = movies.filter((movie) => dateToTimestamp(movie.release_date) <= dateToTimestamp(inputs.date))
         }
         if (inputs.categorie.length) {
             filteredMovies = movies.filter((movie) => movie.categories.includes(inputs.categorie))
@@ -49,7 +49,7 @@ const Home = () => {
     return (
         <section className="homepage">
             <div className="hero">
-                <h1>Bienvenue sur My Movie List</h1>
+                <h1>My Movie List</h1>
                 <img className="hero-bg" src={bgImg}/>
                 <div className="hero-body">
                     <form onSubmit={handleSubmit} className="search-form">
@@ -74,23 +74,26 @@ const Home = () => {
                                 <option value={categorie} key={i}>{categorie}</option>
                             ))}
                         </select>
-                        <button type="submit"><img src={searchImg}/></button>
+                        <button type="submit">
+                            <div className="icon-filter"></div>
+                        </button>
                     </form>
                 </div>
             </div>
 
             <div className="movies-list">
                 <h1 className="page-title">Mes films</h1>
-
-                <ul>
-                    {displayMovies.length
-                        ? displayMovies.map((movie, i) => (
-                            <MovieTile key={i} title={movie.title} desc={movie.description} imgSrc={movie.poster}
-                                       movieId={movie.id}/>
-                        ))
-                        : <h3>Aucun film.</h3>
-                    }
-                </ul>
+                <div className="movies-list-wrapper">
+                    <ul>
+                        {displayMovies.length
+                            ? displayMovies.map((movie, i) => (
+                                <MovieTile key={i} title={movie.title} desc={movie.description} imgSrc={movie.poster}
+                                           movieId={movie.id}/>
+                            ))
+                            : <h3 className="empty-text">Aucun film.</h3>
+                        }
+                    </ul>
+                </div>
             </div>
         </section>
     )
