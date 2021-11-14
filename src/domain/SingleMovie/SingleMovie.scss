@@ -40,6 +40,29 @@
     .bg {
       right: 20%;
     }
+    @media (max-width: 568px){
+
+      .icon-list {
+        right: calc(50% + 30px);
+      }
+
+      .similar-movies {
+        right: 0;
+        width: 50%;
+      }
+
+      .movie-body > .right {
+        width: 50%;
+      }
+
+      .single-movie-hero {
+        width: 50%;
+      }
+
+      .bg {
+        right: 50%;
+      }
+    }
   }
 
   .similar-movies {
@@ -202,9 +225,10 @@
 
         .actor-tile {
           margin-bottom: 30px;
-          min-width: calc(100% / 3 - 30px);
+          min-width: 160px;
+
           max-width: calc(100% / 3 - 30px);
-          width: auto;
+          width: calc(100% / 3 - 30px);
           border-radius: 7px;
 
           &-content {
@@ -219,6 +243,14 @@
             }
           }
         }
+      }
+    }
+
+    @media (max-width: 568px) {
+      flex-direction: column;
+
+      & > .left , &>.right{
+        width: 100%;
       }
     }
   }
