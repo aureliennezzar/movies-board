@@ -1,4 +1,4 @@
-# Paris Event
+# My Movie List
 
 Ceci est un projet d'école, utilisant l'API TMDB, il consite a pouvoir rechercher, enregistrer et lister des films
 
